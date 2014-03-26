@@ -57,7 +57,7 @@ function update_term_meta( $taxonomy, $term_id, $meta_key, $new_value ) {
 }
 
 /**
- * Returns an array with all the parent terms
+ * Returns an array with all the parent terms AND the current term at the end
  *
  * @param string $taxonomy
  * @param int $term_id
