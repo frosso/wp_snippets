@@ -229,7 +229,7 @@ abstract class MyAbstractPage {
             /* @var $page WP_Post */
 
             // applies filters. useful in case of plugins like WPML are installed
-            $this->page_id = apply_filters( 'frosso_plugin/get_page_id', $page->ID );
+            $this->page_id = apply_filters( 'frosso_plugin/get_post_id', $page->ID );
 
             return $this->page_id;
         }
