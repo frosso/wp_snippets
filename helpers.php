@@ -77,3 +77,14 @@ function get_parent_terms_ids( $taxonomy, $term_id ) {
     return $parents;
 
 }
+
+if ( !function_exists( 'get_called_class' ) ) :
+    /**
+     * Fallback for PHP versions < 5.3.0
+     */
+    function get_called_class( ) {
+        $bt = debug_backtrace( );
+        return get_class( $bt[1]['object'] );
+    }
+
+endif;
