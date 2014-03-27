@@ -82,9 +82,48 @@ if ( !function_exists( 'get_called_class' ) ) :
     /**
      * Fallback for PHP versions < 5.3.0
      */
-    function get_called_class( ) {
-        $bt = debug_backtrace( );
+    function get_called_class() {
+        $bt = debug_backtrace();
+
         return get_class( $bt[1]['object'] );
+    }
+
+endif;
+
+
+if ( !function_exists( 'in_2d_array' ) ) :
+
+
+    /**
+     * Finds the $needle key in a multidimensional array
+     * Similar to the in_array function
+     *
+     * @param int|string $needle
+     * @param array $haystack array to look in
+     * @param bool strict
+     *
+     * @return bool true if found, false otherwise
+     */
+    function in_2d_array( $needle, $haystack, $strict = false ) {
+        foreach ( $haystack as $item ) {
+            if ( ( $strict ? $item === $needle : $item == $needle ) || ( is_array( $item ) && in_2d_array( $needle, $item, $strict ) ) ) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+endif;
+
+if ( !function_exists( 'unset_2d' ) ) :
+    /**
+     * Unset the keys that have a $needle value in a multidimentional array
+     */
+    function unset_2d( $needle, &$haystack ) {
+        foreach ( array_keys( $haystack, $needle ) as $index ) {
+            unset( $haystack[$index] );
+        }
     }
 
 endif;
