@@ -12,5 +12,5 @@ class MyPage extends MyAbstractPage {
     }
 
 }
-
+// without calling it at least once, the page is never created
 MyPage::getInstance();
