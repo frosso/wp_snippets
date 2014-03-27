@@ -43,7 +43,20 @@ abstract class MyAbstractPage {
      */
     protected static $instances = array();
 
-
+    /**
+     * You can pass some custom arguments from your class
+     *
+     * <code>
+     * parent::__construct( array(
+     *      'plugin_name' => SOME_CONSTANT,
+     *      'template_path' => dirname(SOME_CONSTANT) . '/app/views/my-page.php',
+     *      'page_data' => array('post_status' => 'draft'),
+     *      'delete_on_deactivation' => true )
+     * );
+     * </code>
+     *
+     * @param array $args
+     */
     protected function __construct( array $args = array() ) {
         $arguments = array( 'plugin_name', 'template_path', 'page_data', 'delete_on_deactivation' );
         foreach ( $arguments as $argument ) {
