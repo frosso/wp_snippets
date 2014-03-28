@@ -35,20 +35,25 @@ class PostTableRepository extends MyAbstractTableRepository {
     }
 
     public function publishedBy( $user_id ) {
-        return $this->setWhere( 'post_author', '=', $user_id );
+        return $this->andWhere( 'post_author', '=', $user_id );
     }
 
     public function postStatus( $status ) {
-        return $this->setWhere( 'post_status', '=', $status, 'string' );
+        return $this->andWhere( 'post_status', '=', $status, 'string' );
     }
 
     public function postType( $post_type ) {
-        return $this->setWhere( 'post_type', '=', $post_type, 'string' );
+        return $this->andWhere( 'post_type', '=', $post_type, 'string' );
     }
 
     public function pages() {
         return $this->postType( 'page' );
     }
+
+    public function addMovies() {
+        return $this->orWhere( 'post_type', '=', 'movie', 'string' );
+    }
 }
 
-// Example: var_dump( PostTableRepository::query()->postStatus( 'publish' )->pages()->result() );
+// Returns movies and pages.
+// Example: var_dump( PostTableRepository::query()->postStatus( 'publish' )->pages()->addMovies()->result(); );

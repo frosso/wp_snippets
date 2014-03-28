@@ -37,7 +37,7 @@ abstract class MyAbstractTableRepository {
     }
 
     /**
-     * Sets a WHERE clause
+     * Sets a AND WHERE clause
      *
      * @param $column
      * @param string $operator
@@ -46,13 +46,37 @@ abstract class MyAbstractTableRepository {
      *
      * @return $this
      */
-    public function setWhere( $column, $operator = '=', $filter = null, $type = null ) {
+    public function andWhere( $column, $operator = '=', $filter = null, $type = null ) {
         if ( is_null( $filter ) ) {
             unset( $this->where_clauses[$column] );
         } else {
-            $this->where_clauses[$column] = $column . $operator . $filter;
+            $this->where_clauses[$column] = 'AND ' . $column . $operator . $filter;
             if ( $type == 'string' ) {
-                $this->where_clauses[$column] = $column . $operator . "'" . $filter . "'";
+                $this->where_clauses[$column] = 'AND ' . $column . $operator . "'" . $filter . "'";
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Sets a OR WHERE clause
+     *
+     * @param $column
+     * @param string $operator
+     * @param null $filter
+     * @param null $type
+     *
+     * @return $this
+     */
+    public function orWhere( $column, $operator = '=', $filter = null, $type = null ) {
+        $clause_identifier = 'OR' . $column;
+        if ( is_null( $filter ) ) {
+            unset( $this->where_clauses[$clause_identifier] );
+        } else {
+            $this->where_clauses[$clause_identifier] = 'OR ' . $column . $operator . $filter;
+            if ( $type == 'string' ) {
+                $this->where_clauses[$clause_identifier] = 'OR ' . $column . $operator . "'" . $filter . "'";
             }
         }
 
@@ -106,7 +130,7 @@ abstract class MyAbstractTableRepository {
         global $wpdb;
 
         $select = implode( ', ', $this->select );
-        $where = implode( ' AND ', $this->where_clauses );
+        $where = implode( ' ', $this->where_clauses );
         $limit = !empty( $this->limit_clause ) ? 'LIMIT ' . implode( ', ', $this->limit_clause ) : '';
 
         return implode( ' ', array(
