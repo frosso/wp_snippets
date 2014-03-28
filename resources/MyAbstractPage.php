@@ -44,6 +44,7 @@ abstract class MyAbstractPage {
     protected static $instances = array();
 
     /**
+     *
      * You can pass some custom arguments from your class
      *
      * <code>
