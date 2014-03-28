@@ -25,7 +25,7 @@ abstract class MyAbstractCPT {
         add_action( 'init', array(
             &$this,
             'registerPostType'
-        ), 0 );
+        ) );
 
         /**
          * override the template
@@ -41,7 +41,8 @@ abstract class MyAbstractCPT {
     }
 
     public function registerPostType() {
-        register_post_type( self::getName(), $this->post_args );
+        $class = get_called_class();
+        register_post_type( $class::getName(), $this->post_args );
     }
 
     /**
@@ -51,7 +52,8 @@ abstract class MyAbstractCPT {
      */
     public function overrideTemplate( $template ) {
         if ( !is_admin() ) {
-            if ( is_singular( self::getNome() ) ) {
+            $class = get_called_class();
+            if ( is_singular( $class::getNome() ) ) {
                 $template = $this->template_path;
             }
         }
@@ -64,5 +66,5 @@ abstract class MyAbstractCPT {
      *
      * @return string
      */
-    abstract public static function getName();
+    //    abstract public static function getName();
 } 
