@@ -31,7 +31,9 @@ Or, if I have a custom table, I could write something like
 ## Resources ##
 Classes that I use to create pages in the `posts` table when my plugin is activated or to create Custom Post Types.
 
-For example, if I needed to create an About us page when my plugin is activated, I can use `MyAbstractPage` class. And I can use the same class to get that page ID (and interact with it in my theme), without worrying that if the post ID or the post title is changed, I won't get the same result anymore. Also, if I have the WPML plugin activated, I provided an helper class that returns the page id for the current language.
+For example, if I needed to create an About us page when my plugin is activated, I can use `MyAbstractPage` class. And I can use the same class to get that page ID (and interact with it in my theme), without worrying that if the post ID or the post title is changed I won't get the same result anymore. Also, if I have the WPML plugin activated, I provided an helper class that returns the page id for the current language. So I can write in my theme `AboutPage::getId()`.
+
+Also, providing a template path, I can store the page's view in my plugin directory.
 
 ## Helpers ##
 
