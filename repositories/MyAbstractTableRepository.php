@@ -5,6 +5,7 @@
  *
  * TODO: Add a groupBy
  * TODO: Provide a simple way to nest wheres (maybe with a decorator)
+ * TODO: joins? So much an overkill
  *
  * Class MyAbstractTableRepository
  */
