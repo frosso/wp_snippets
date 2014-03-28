@@ -103,11 +103,11 @@ abstract class MyAbstractTableRepository {
      *
      * @return null|string
      */
-    private function aggregate( $select ) {
+    private function aggregate( $function, $column ) {
         /** @var $wpdb wpdb */
         global $wpdb;
 
-        $this->select = array( $select );
+        $this->select = array( sprintf( '%s(%s)', $function, $column ) );
 
         $query = $this->buildQuery();
 
@@ -121,7 +121,7 @@ abstract class MyAbstractTableRepository {
      * @return int
      */
     public function count() {
-        return $this->aggregate( 'COUNT(*)' );
+        return $this->aggregate( 'COUNT', '*' );
     }
 
     /**
@@ -133,7 +133,7 @@ abstract class MyAbstractTableRepository {
      * @return null|string
      */
     public function max( $column ) {
-        return $this->aggregate( "MAX({$column})" );
+        return $this->aggregate( 'MAX', $column );
     }
 
     /**
@@ -145,7 +145,7 @@ abstract class MyAbstractTableRepository {
      * @return null|string
      */
     public function min( $column ) {
-        return $this->aggregate( "MIN({$column})" );
+        return $this->aggregate( 'MIN', $column );
     }
 
     /**
@@ -157,7 +157,7 @@ abstract class MyAbstractTableRepository {
      * @return null|string
      */
     public function avg( $column ) {
-        return $this->aggregate( "AVG({$column})" );
+        return $this->aggregate( 'AVG', $column );
     }
 
     /**
@@ -169,7 +169,7 @@ abstract class MyAbstractTableRepository {
      * @return null|string
      */
     public function sum( $column ) {
-        return $this->aggregate( "SUM({$column})" );
+        return $this->aggregate( 'SUM', $column );
     }
 
     /**
