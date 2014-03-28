@@ -99,7 +99,8 @@ abstract class MyAbstractTableRepository {
     }
 
     /**
-     * @param string $select
+     * @param $function
+     * @param $column
      *
      * @return null|string
      */
