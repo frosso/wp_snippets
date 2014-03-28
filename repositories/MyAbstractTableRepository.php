@@ -3,6 +3,9 @@
 /**
  * This is probably an overkill, but I use it for some simple custom tables
  *
+ * TODO: Add a groupBy
+ * TODO: Provide a simple way to nest wheres (maybe with a decorator)
+ *
  * Class MyAbstractTableRepository
  */
 abstract class MyAbstractTableRepository {
@@ -47,16 +50,7 @@ abstract class MyAbstractTableRepository {
      * @return $this
      */
     public function andWhere( $column, $operator = '=', $filter = null, $type = null ) {
-        if ( is_null( $filter ) ) {
-            unset( $this->where_clauses[$column] );
-        } else {
-            $this->where_clauses[$column] = 'AND ' . $column . $operator . $filter;
-            if ( $type == 'string' ) {
-                $this->where_clauses[$column] = 'AND ' . $column . $operator . "'" . $filter . "'";
-            }
-        }
-
-        return $this;
+        return $this->addWhere( 'AND', $column, $operator, $filter, $type );
     }
 
     /**
@@ -70,13 +64,26 @@ abstract class MyAbstractTableRepository {
      * @return $this
      */
     public function orWhere( $column, $operator = '=', $filter = null, $type = null ) {
-        $clause_identifier = 'OR' . $column;
+        return $this->addWhere( 'OR', $column, $operator, $filter, $type );
+    }
+
+    /**
+     * @param string $where_type
+     * @param $column
+     * @param string $operator
+     * @param null $filter
+     * @param null $type
+     *
+     * @return $this
+     */
+    private function addWhere( $where_type, $column, $operator, $filter, $type ) {
+        $clause_identifier = $where_type . $column;
         if ( is_null( $filter ) ) {
             unset( $this->where_clauses[$clause_identifier] );
         } else {
-            $this->where_clauses[$clause_identifier] = 'OR ' . $column . $operator . $filter;
+            $this->where_clauses[$clause_identifier] = $where_type . ' ' . $column . $operator . $filter;
             if ( $type == 'string' ) {
-                $this->where_clauses[$clause_identifier] = 'OR ' . $column . $operator . "'" . $filter . "'";
+                $this->where_clauses[$clause_identifier] = $where_type . ' ' . $column . $operator . "'" . $filter . "'";
             }
         }
 
