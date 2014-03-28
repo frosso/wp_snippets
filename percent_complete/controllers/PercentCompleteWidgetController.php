@@ -26,6 +26,7 @@ class PercentCompleteWidgetController extends MyBaseController {
         // remember to update the position of these. Usually I leave them in the 'models' folder
         require_once dirname( __FILE__ ) . '/../models/percent_complete/ITodoItem.php';
         require_once dirname( __FILE__ ) . '/../models/percent_complete/PercentComplete.php';
+        // add your items to this file
         require_once dirname( __FILE__ ) . '/../models/percent_complete/include_items.php';
 
         $percent_complete = PercentComplete::getInstance();
