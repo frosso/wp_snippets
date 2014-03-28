@@ -3,6 +3,10 @@ wp_snippets
 
 My personal Snippets for Wordpress
 
+## Percent Complete ##
+A picture is worth a thousand words.
+![Imgur](http://i.imgur.com/riovtA6.png)
+
 ## Controllers ##
 Controllers for the admin area.
 
