@@ -77,15 +77,12 @@ abstract class MyAbstractTableRepository {
      * @return $this
      */
     private function addWhere( $where_type, $column, $operator, $filter, $type ) {
-        $clause_identifier = $where_type . $column;
-        if ( is_null( $filter ) ) {
-            unset( $this->where_clauses[$clause_identifier] );
-        } else {
-            $this->where_clauses[$clause_identifier] = $where_type . ' ' . $column . $operator . $filter;
-            if ( $type == 'string' ) {
-                $this->where_clauses[$clause_identifier] = $where_type . ' ' . $column . $operator . "'" . $filter . "'";
-            }
+        $where_clause = $where_type . ' ' . $column . $operator . $filter;
+        if ( $type == 'string' ) {
+            $where_clause = $where_type . ' ' . $column . $operator . "'" . $filter . "'";
         }
+
+        $this->where_clauses[] = $where_clause;
 
         return $this;
     }

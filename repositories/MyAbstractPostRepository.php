@@ -75,7 +75,7 @@ abstract class MyAbstractPostRepository {
     }
 
     /**
-     * Provides an easier way to set/unset a meta_query
+     * Provides an easier way to set a meta_query
      * So you can make a method that does this
      * <code>
      * public function used(){ // if some of your posts have a 'used' postmeta
@@ -90,14 +90,7 @@ abstract class MyAbstractPostRepository {
      * @return $this
      */
     public function setMetaQuery( $meta_key, $value = null, $compare = '=' ) {
-        // if no value is provided, we delete it from the query
-        if ( is_null( $value ) ) {
-            unset( $this->query_args['meta_query'][$meta_key] );
-
-            return $this;
-        }
-
-        // otherwise we set it
+        // if it's already present, we overwrite it
         $this->query_args['meta_query'][$meta_key] = array(
             'key'     => $meta_key,
             'value'   => $value,
