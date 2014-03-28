@@ -28,3 +28,27 @@ class MyMoviesCPTRepository extends MyAbstractPostRepository {
         return $this->status( 'publish' );
     }
 }
+
+class PostTableRepository extends MyAbstractTableRepository {
+    protected function __construct( array $args = array() ) {
+        parent::__construct( array( 'table_name' => 'posts' ) );
+    }
+
+    public function publishedBy( $user_id ) {
+        return $this->setWhere( 'post_author', '=', $user_id );
+    }
+
+    public function postStatus( $status ) {
+        return $this->setWhere( 'post_status', '=', $status, 'string' );
+    }
+
+    public function postType( $post_type ) {
+        return $this->setWhere( 'post_type', '=', $post_type, 'string' );
+    }
+
+    public function pages() {
+        return $this->postType( 'page' );
+    }
+}
+
+// Example: var_dump( PostTableRepository::query()->postStatus( 'publish' )->pages()->result() );
