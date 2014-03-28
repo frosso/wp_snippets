@@ -1,8 +1,8 @@
 # Avoid access to any VCS directory
 RedirectMatch 404 /\\.(svn|git|hg|bzr|cvs)(/|$)
 
-# dureing local development, if I pull the database from the production server, 
-# then each access to an attachment results in a 404 (because I should also download all the images)
+# During local development, if I pull the database from the production/staging server,
+# then each access to an attachment results in a 404 (because I should also download all the images).
 # Instead, I redirect every request to the production server
 Redirect permanent /wp-content/uploads http://SERVER.TLD/wp-content/uploads
 Redirect permanent /wp-content/gallery http://SERVER.TLD/wp-content/gallery
