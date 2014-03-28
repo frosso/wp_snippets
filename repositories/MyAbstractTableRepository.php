@@ -99,18 +99,77 @@ abstract class MyAbstractTableRepository {
     }
 
     /**
+     * @param string $select
+     *
+     * @return null|string
+     */
+    private function aggregate( $select ) {
+        /** @var $wpdb wpdb */
+        global $wpdb;
+
+        $this->select = array( $select );
+
+        $query = $this->buildQuery();
+
+        return $wpdb->get_var( $query );
+    }
+
+    /**
+     * Aggregate
      * Returns the number of items in the specified query
      *
      * @return int
      */
     public function count() {
-        $this->select = array( 'COUNT(*)' );
-        /** @var $wpdb wpdb */
-        global $wpdb;
+        return $this->aggregate( 'COUNT(*)' );
+    }
 
-        $query = $this->buildQuery();
+    /**
+     * Aggregate
+     * Returns the max value for the specified column
+     *
+     * @param $column
+     *
+     * @return null|string
+     */
+    public function max( $column ) {
+        return $this->aggregate( "MAX({$column})" );
+    }
 
-        return $wpdb->get_var( $query );
+    /**
+     * Aggregate
+     * Returns the min value for the specified column
+     *
+     * @param $column
+     *
+     * @return null|string
+     */
+    public function min( $column ) {
+        return $this->aggregate( "MIN({$column})" );
+    }
+
+    /**
+     * Aggregate
+     * Returns the average value for the specified column
+     *
+     * @param $column
+     *
+     * @return null|string
+     */
+    public function avg( $column ) {
+        return $this->aggregate( "AVG({$column})" );
+    }
+
+    /**
+     * Aggregate
+     * Returns the sum of the values for the specified column
+     *
+     * @param $column
+     *
+     * @return null|string
+     */
+    public function sum( $column ) {
+        return $this->aggregate( "SUM({$column})" );
     }
 
     /**
