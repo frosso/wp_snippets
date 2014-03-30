@@ -7,6 +7,8 @@ I find it really useful in a Network installation. Then the clients need less tr
 
 You can add your custom actions by implementing the ITodoItem interface and register yourself to PercentComplete.
 
+To use this thing, you need to include `controllers/PercentCompleteWidgetController.php` somewhere in your code.
+
 ## Screenshot ##
 ![Imgur](http://i.imgur.com/riovtA6.png)
 
