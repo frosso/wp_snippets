@@ -39,6 +39,9 @@ For example, if I needed to create an About us page when my plugin is activated,
 
 Also, providing a template path, I can store the page's view in my plugin directory.
 
+## Models ##
+Classes that helps me interact with my entities stored in the DB (or wherever).
+
 ## Helpers ##
 
 Just some helper functions. I find `user_is` and `get_called_class` (since we have a machine at work with an old PHP version) really useful.
