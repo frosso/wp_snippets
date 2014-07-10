@@ -109,6 +109,7 @@ abstract class TableModel {
                 $values
             ); // TODO: if we fail, what should we do? Exception?
             $this->ID = $wpdb->insert_id;
+            $this->values = $values;
             $this->saved = true;
         } else {
             // update
