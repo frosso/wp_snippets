@@ -89,7 +89,7 @@ abstract class TableModel {
      */
     public function save() {
         /**
-         * @var $wpdb wpdb
+         * @var $wpdb \wpdb
          */
         global $wpdb;
 
@@ -109,7 +109,6 @@ abstract class TableModel {
                 $values
             ); // TODO: if we fail, what should we do? Exception?
             $this->ID = $wpdb->insert_id;
-            $this->values = $values;
             $this->saved = true;
         } else {
             // update
@@ -123,6 +122,7 @@ abstract class TableModel {
             );
         }
 
+        $this->values = $values;
         $this->dirty = false;
 
         return $this;
