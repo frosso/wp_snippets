@@ -99,4 +99,22 @@ abstract class MyAbstractPostRepository {
 
         return $this;
     }
+    
+    /**
+     * Set the post status we want to query
+     * @param string|array $post_status
+     *
+     * @return $this
+     */
+    public function postStatus( $post_status = 'any' ) {
+        if ( $post_status == 'any' ) {
+            $post_status = array(
+                'publish', 'pending', 'draft', 'auto-draft', 'future', 'private', 'inherit', 'trash'
+            );
+        }
+
+        $this->query_args['post_status'] = $post_status;
+
+        return $this;
+    }
 } 
