@@ -16,8 +16,15 @@ class MyMoviesCPTRepository extends MyAbstractPostRepository {
         return $this->setMetaQuery( 'year', $year );
     }
 
-    public function status( $post_status ) {
-        return $this->setRawQueryArgs( array( 'post_status' => $post_status ) );
+    /**
+     * Query only published posts
+     * 
+     * @return $this
+     */
+    public function published() {
+        $this->postStatus( 'publish' );
+
+        return $this;
     }
 
     /**
