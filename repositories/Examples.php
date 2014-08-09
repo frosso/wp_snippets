@@ -36,6 +36,9 @@ class MyMoviesCPTRepository extends MyAbstractPostRepository {
     }
 }
 
+/**
+ * I'm using the wp_posts table here, but you can actually use any table you want. I use it with my custom tables.'
+ */
 class PostTableRepository extends MyAbstractTableRepository {
     protected function __construct( array $args = array() ) {
         parent::__construct( array( 'table_name' => 'posts' ) );
@@ -59,6 +62,10 @@ class PostTableRepository extends MyAbstractTableRepository {
 
     public function addMovies() {
         return $this->orWhere( 'post_type', '=', 'movie', 'string' );
+    }
+    
+    public function paginate($count = null, $start_from = 0) {
+        return $this->limit( $count, $start_from );
     }
 }
 
