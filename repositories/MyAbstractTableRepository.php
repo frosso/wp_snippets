@@ -91,13 +91,15 @@ abstract class MyAbstractTableRepository {
     /**
      * @param int|null $count
      *
+     * @param int $start_from
+     *
      * @return $this
      */
-    public function limit( $count = null ) {
+    public function limit( $count = null, $start_from = 0 ) {
         if ( is_null( $count ) ) {
             $this->limit_clause = null;
         } else {
-            $this->limit_clause = array( 0, $count );
+            $this->limit_clause = array( $start_from, $count );
         }
 
         return $this;
@@ -182,16 +184,32 @@ abstract class MyAbstractTableRepository {
      * @return array
      */
     public function result() {
-        /** @var $wpdb wpdb */
+        /** @var $wpdb \wpdb */
         global $wpdb;
 
         $query = $this->buildQuery();
 
-        return $wpdb->get_results( $query, ARRAY_A );
+        $results = $wpdb->get_results( $query, ARRAY_A );
+
+        // needed for the next check
+        if ( !is_array( $results ) ) {
+            return $results;
+        }
+
+        if ( is_null( $this->limit_clause ) ) {
+            return $results;
+        }
+
+        // do I want just one item?
+        if ( $this->limit_clause[1] == 1 ) {
+            return $results[0];
+        }
+
+        return $results;
     }
 
     protected function buildQuery() {
-        /** @var $wpdb wpdb */
+        /** @var $wpdb \wpdb */
         global $wpdb;
 
         $select = implode( ', ', $this->select );
