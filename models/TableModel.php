@@ -97,26 +97,34 @@ abstract class TableModel {
 
         // maybe we want to do something with this
         $values = apply_filters( "frosso_plugin/model/{$this->table}/pre_save", $values, $this );
+        
+        $table_name = $this->getTableName();
+
+        // db call result
+        $db_result = false;
+        $action = '';
 
         // If the values are not present in the DB, we insert them
         if ( !$this->isSaved() ) {
             // insert
+            $action = 'insert';
 
             // maybe we want to set some default values
             $values = apply_filters( "frosso_plugin/model/{$this->table}/pre_insert", $values, $this );
-            $wpdb->insert(
-                $wpdb->prefix . $this->table,
+            $db_result = $wpdb->insert(
+                $table_name,
                 $values
             ); // TODO: if we fail, what should we do? Exception?
             $this->ID = $wpdb->insert_id;
             $this->saved = true;
         } else {
             // update
+            $action = 'update';
 
             // maybe we want to do something with this
             $values = apply_filters( "frosso_plugin/model/{$this->table}/pre_update", $values, $this );
-            $wpdb->update(
-                $wpdb->prefix . $this->table,
+            $db_result = $wpdb->update(
+                $table_name,
                 $values,
                 array( 'ID' => $this->ID )
             );
@@ -124,9 +132,29 @@ abstract class TableModel {
 
         $this->values = $values;
         $this->dirty = false;
+        
+        // check errors
+        if ( $db_result === false ) {
+            // wanna log into a file or something?
+            do_action( "frosso_plugin/model/save_error", $this, $action );
+            do_action( "frosso_plugin/model/{$this->table}/save_error", $this, $action );
+        } else {
+            do_action( "frosso_plugin/model/post_save", $this, $action );
+            do_action( "frosso_plugin/model/{$this->table}/post_save", $this, $action );
+        }
 
         return $this;
 
+    }
+    
+    /**
+     * Get the name for this model
+     * @return string
+     */
+    public function getTableName() {
+        global $wpdb;
+
+        return apply_filters( "frosso_pluginh/model/{$this->table}/table_name", $wpdb->prefix . $this->table, $this );
     }
 
     public function __get( $field ) {
