@@ -12,7 +12,7 @@
  */
 function user_is( $role, $user_id = null ) {
     $user = $user_id;
-    if ( get_class( $user_id ) != 'WP_User' ) {
+    if ( !( $user_id instanceof WP_User ) ) {
         if ( is_numeric( $user_id ) )
             $user = get_userdata( $user_id );
         else
